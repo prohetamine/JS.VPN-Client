@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+</head>
+<body>
+<link rel='stylesheet' type='text/css' href='style.css'>
+<script src='TweenMax.min.js'></script>
+<script src='script.js'></script>
+<div class='btn-border'>
+    <div class='btn-body'>	
+        <div class='but-plane'></div>
+    </div>
+</div>
+<script>
+const { ipcRenderer, remote }  = require('electron')
+      , plane  = document.getElementsByClassName('but-plane')[0]
+      , btnBorder = document.getElementsByClassName('btn-border')[0]
+      , btnBody  = document.getElementsByClassName('btn-body')[0]
+	
+const win = remote.getCurrentWindow() 
+
+localStorage.x && win.setPosition(
+    parseInt(localStorage.x),
+    parseInt(localStorage.y)
+)
+
+setInterval(() => {
+    const [x, y] = win.getPosition()
+    localStorage.setItem('x', x)
+    localStorage.setItem('y', y)
+}, 3)
+
+document.body.addEventListener('contextmenu', e => {
+    localStorage.setItem('context_x', e.pageX)
+    localStorage.setItem('context_y', e.pageY)
+    ipcRenderer.sendSync('VPN_CONTEXT')
+    e.preventDefault()
+}); 
+
+let start = false
+plane.addEventListener('click', () => {
+    start = !start
+    if (start) {
+        ipcRenderer.sendSync('VPN_CONNECT')
+    } else {
+        ipcRenderer.sendSync('VPN_DISCONNECT')
+    }	
+})
+
+const statVPN = new VPNstatus(plane, btnBody, btnBorder)
+
+statVPN.color('red')
+statVPN.reject()
+
+ipcRenderer.on('VPN_STATUS', (e, data) => {
+    const { animation, color } = JSON.parse(data)
+
+    statVPN.color(color)
+    statVPN[animation]()
+})
+	
+</script>
+</body>
+</html>

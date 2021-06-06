@@ -1,0 +1,30 @@
+{
+  "name": "JS.VPN-Client",
+  "version": "0.3.77",
+  "description": "VPN Client",
+  "main": "index.js",
+  "homepage": "https://github.com/JsusDev/JS.VPN-Client",
+  "build": {
+    "appId": "JS.VPN-Client",
+    "productName": "JS.VPN-Client",
+    "copyright": "JSus & Developments © 2018",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico",
+      "legalTrademarks": "JSus & Developments © 2018",
+      "asar": false
+    }
+  },
+  "author": {
+    "name": "JSus & Developments",
+    "email": "jsusdev@yandex.ru"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
+    "ipify": "^2.0.0",
+    "js-base64": "^2.4.9",
+    "request": "^2.88.0"
+  }
+}

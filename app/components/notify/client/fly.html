@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+<body>
+<div class='body'>
+    <div class='message-box'>
+        <div class='message'>
+            <div class='text'>Загрузка ...</div>
+            <div class='other'>
+            </div>
+        </div>
+        <div class='vector-box'>
+            <div class='vector'></div>
+        </div>
+    </div>
+</div>
+<script>
+const Text = document.getElementsByClassName('text')[0]
+    , Other = document.getElementsByClassName('other')[0]
+    , { ipcRenderer, remote } = require('electron')
+
+const win = remote.getCurrentWindow()
+
+setInterval(() => {
+    win.setPosition(
+        parseInt(localStorage.x - 43),
+        parseInt(localStorage.y - 150)
+    )
+}, 3)
+
+ipcRenderer.on('ALERT', (e, data) => {
+    Text.innerHTML = data
+    Other.innerHTML = ''
+})
+
+ipcRenderer.on('CONFIRM', (e, data) => {
+    const {
+        message, button
+    } = JSON.parse(data)
+
+    Text.innerHTML = message
+    Other.innerHTML = ''
+    
+    button.forEach(elem => {
+        const btn = document.createElement('div')
+        btn.className = 'btn'
+        btn.innerHTML = elem.title
+        btn.onclick = e => {
+            ipcRenderer.send('CONFIRM_CALLBACK', elem.return)
+            e.stopPropagation()
+        }
+        Other.appendChild(btn)
+    })
+})
+
+document.body.addEventListener('click', () => {
+    ipcRenderer.send('ALERT_HIDE')
+})
+</script>
+</body>
+</html>

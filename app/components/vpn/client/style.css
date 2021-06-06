@@ -1,0 +1,48 @@
+* {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	-webkit-app-region: drag;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	background: rgba(0,0,0,0);
+}
+
+.btn-border {
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	width: 111px;
+	height: 111px;
+	background: #e2333d;
+	border-radius: 100%;
+	box-shadow: 1px 1px 5px 1px rgba(255, 24, 37, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-body {
+	border-radius: 100%;
+	overflow: hidden; 
+	width: 85px;
+	height: 85px;
+	background: #f06069;
+	cursor: pointer;
+	-webkit-app-region: no-drag;
+}
+
+.but-plane {
+	position: relative;
+	background: url('paper-plane.svg');
+	width: 60%;
+	height: 60%;
+    top: 71px;
+	left: -38px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+

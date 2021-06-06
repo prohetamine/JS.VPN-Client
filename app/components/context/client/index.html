@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+<body>
+<div class='body'>
+    <div class='btn' id='ip'>Определить IP</div>
+    <div class='btn' id='update'>Обновить сервера</div>
+    <div class='btn' id='setting'>Настройки</div>
+    <div class='btn' id='about'>Обратная связь</div>
+    <div class='btn' id='hidden'>Свернуть</div>
+    <div class='btn end' id='exit'>Выход</div>
+</div>
+<script>
+const { ipcRenderer, remote } = require('electron')
+
+const win = remote.getCurrentWindow()
+
+setInterval(() => {
+    win.setPosition(
+        parseInt(localStorage.x) +
+        parseInt(localStorage.context_x) - 168,
+        parseInt(localStorage.y) +
+        parseInt(localStorage.context_y) - 233
+    )
+}, 3)
+
+document.getElementById('ip').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_CHECKIP')
+})
+
+document.getElementById('update').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_UPDATE')
+})
+
+document.getElementById('setting').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_SETTING')
+})
+
+document.getElementById('about').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_CALLBACK')
+})
+
+document.getElementById('hidden').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_HIDDEN')
+})
+
+document.getElementById('exit').addEventListener('click', () => {
+    ipcRenderer.send('CONTEXT_EXIT')
+})
+</script>
+</body>
+</html>

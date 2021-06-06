@@ -1,0 +1,149 @@
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font1.woff2) format('woff2');
+	unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font2.woff2) format('woff2');
+	unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+ 	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font3.woff2) format('woff2');
+ 	unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font4.woff2) format('woff2');
+	unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font5.woff2) format('woff2');
+	unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+	font-family: 'Source Sans Pro';
+ 	font-style: normal;
+ 	font-weight: 400;
+  	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font6.woff2) format('woff2');
+  	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/font7.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+*{
+	font-family: 'Source Sans Pro', sans-serif;
+	padding: 0;
+	margin: 0; 
+	overflow: hidden;
+	background: rgba(0,0,0,0);
+}
+
+
+.body{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-direction: column;
+	height: 175px;
+}
+
+.message-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.message {
+	border-radius: 10px;
+	font-size: 14px;
+	background: rgba(36, 39, 39, 0.9);
+	padding: 10px 10px 10px 10px;
+	color: #eee;
+	width: auto;
+	max-width: 180px;
+	min-width: 40px;
+}		
+
+.other {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.btn {
+	min-width: 35px;
+	width: 100%;
+	color: #dcdcdc;
+	background: #7b7b7b;
+	margin: 8px 2px 0px 2px;
+	padding: 3px;
+	font-size: 13px;
+	border-radius: 3px; 
+	text-align: center;
+	user-select: none;
+	cursor: pointer;
+}
+
+.button:hover {
+	background: #e6e6e6;
+	background: #868686;
+}
+
+input {
+	cursor: pointer;
+	border: none;
+	border-radius: 6px;
+	padding: 4px 10px 4px 10px;
+	margin: 2px;
+	color: #eee;
+	outline: none; 
+	background: rgba(51, 55, 55, 0.9);
+}
+
+input:hover {
+	color: #ccc
+}
+
+.vector {
+	width: 30px;
+	height: 30px;
+	background: rgba(36, 39, 39, 0.9);
+	transform: rotateZ(45deg);
+	border-radius: 5px;
+}
+
+.vector-box {
+	padding: 4px;
+	margin-top: 0px;
+	height: 8px;
+	overflow: hidden;
+	position: relative;
+	z-index: 0;
+	transform: rotateZ(180deg);
+}
+

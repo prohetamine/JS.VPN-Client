@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='style.css?ss'>
+</head>
+<body>
+<div class='body'>
+    <div class='avatar'></div>
+    <div class='info'>
+        <div class='name'><b>JSus</b> Dev</div>
+        <div class='background'><i>"JavaScript программист и разработчик электронных устройств"</i></div>
+        <a onclick='open_link("https://github.com/JsusDev/JS.VPN-Client");event.preventDefault()' href='#' class='gh'>GitHub</a>
+        <a onclick='open_link("https://t.me/jsusdev");event.preventDefault()' href='#' target='_blank'>Telegram me</a>
+        <a onclick='open_link("https://t.me/jsusdevs");event.preventDefault()' href='#' target='_blank'>Telegram channel</a>
+        <div class='btn'>Закрыть</div>
+    </div>
+</div>
+<script>
+const btn = document.getElementsByClassName('btn')[0]
+   , { ipcRenderer, shell } = require('electron')
+
+const open_link = (url) => shell.openExternal(url)
+
+btn.addEventListener('click', () => {
+    ipcRenderer.sendSync('CALLBACK_CLOSE')
+})
+</script>
+</body>
+</html>

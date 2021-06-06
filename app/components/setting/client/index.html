@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+<body>
+<div class='body'>
+    <div class='settings'>
+        <div class='wrapper'>
+            <div>Количество сессий (от)</div>
+            <select name='NumVpnSessions'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Ping (до)</div>
+            <select name='Ping'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Всего подключений (от)</div>
+            <select name='TotalUsers'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Страна</div>
+            <select name='CountryLong'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Время работы (от)</div>
+            <select name='Uptime'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Скорость (от)</div>
+            <select name='Speed'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Общий трафик (от)</div>
+            <select name='TotalTraffic'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Качество соединения (от)</div>
+            <select name='Score'>
+                <option value='-'>---</option>
+            </select>
+        </div>
+        <div class='wrapper'>
+            <div>Расположен. увед.</div>
+            <select name='PositionNotify'>
+                <option value='BR'>Низ право</option>
+                <option value='TR'>Верх право</option>
+                <option value='BL'>Низ лево</option>
+                <option value='TL'>Верх лево</option>
+            </select>
+        </div>
+        <label for='auto-reconnect'>
+            <div class='wrapper'>
+                <div>Авто-переподключение к VPN</div>
+                <input type="checkbox" name='AutoReconnect' id='auto-reconnect' hidden>
+                <div class='new_check'></div>
+            </div>
+        </label>
+        <label for='auto-update'>
+            <div class='wrapper'>
+                <div>Авто-обновление серверов</div>
+                <input type="checkbox" name='AutoUpdate' id='auto-update' hidden>
+                <div class='new_check'></div>
+            </div>
+        </label>
+        <label for='permutation'>
+            <div class='wrapper'>
+                <div>Показывать по центру (при запуске)</div>
+                <input type="checkbox" name='Permutation' id='permutation' hidden>
+                <div class='new_check'></div>
+            </div>
+        </label>
+        <label for='start-hidden'>
+            <div class='wrapper'>
+                <div>Запускать свернутым</div>
+                <input type="checkbox" name='StartHidden' id='start-hidden' hidden>
+                <div class='new_check'></div>
+            </div>
+        </label>
+    </div>
+    <div class='btn-nav'>
+        <div class='btn save'>Сохранить</div>
+        <div class='btn close'>Закрыть</div>
+    </div>
+</div>
+<script>
+const save = document.getElementsByClassName('save')[0]
+    , close = document.getElementsByClassName('close')[0]
+    , NumVpnSessions = document.getElementsByName('NumVpnSessions')[0]
+    , Ping = document.getElementsByName('Ping')[0]
+    , TotalUsers = document.getElementsByName('TotalUsers')[0]
+    , CountryLong = document.getElementsByName('CountryLong')[0]
+    , Uptime = document.getElementsByName('Uptime')[0]
+    , Speed = document.getElementsByName('Speed')[0]
+    , TotalTraffic = document.getElementsByName('TotalTraffic')[0]
+    , Score = document.getElementsByName('Score')[0]
+    , AutoReconnect = document.getElementsByName('AutoReconnect')[0]
+    , Permutation = document.getElementsByName('Permutation')[0]
+    , AutoUpdate = document.getElementsByName('AutoUpdate')[0]
+    , StartHidden = document.getElementsByName('StartHidden')[0]
+    , PositionNotify = document.getElementsByName('PositionNotify')[0]
+    , { ipcRenderer, shell } = require('electron')
+
+const getSetting = () => JSON.stringify({
+    Ping: Ping.value || '-',
+    NumVpnSessions: NumVpnSessions.value || '-',
+    TotalUsers: TotalUsers.value || '-',
+    CountryLong: CountryLong.value || '-',
+    Uptime: Uptime.value || '-',
+    Speed: Speed.value || '-',
+    TotalTraffic: TotalTraffic.value || '-',
+    Score: Score.value || '-',
+    AutoReconnect: AutoReconnect.checked || false,
+    AutoUpdate: AutoUpdate.checked || false,
+    Permutation: Permutation.checked || false,
+    StartHidden: StartHidden.checked || false,
+    PositionNotify: PositionNotify.value || 'BR'
+})
+
+save.addEventListener('click', () => {
+    localStorage.setItem('vpn_setting', getSetting())
+    ipcRenderer.sendSync('SETTING_SAVE')
+})
+
+close.addEventListener('click', () => {
+    ipcRenderer.sendSync('SETTING_CLOSE')
+})
+</script>
+<script src='creater-option.js'></script>
+<script>
+
+const vpn_setting = JSON.parse(localStorage.vpn_setting || "{}")
+
+Ping.value = vpn_setting.Ping || '-'
+NumVpnSessions.value = vpn_setting.NumVpnSessions || '-'
+TotalUsers.value = vpn_setting.TotalUsers || '-'
+CountryLong.value = vpn_setting.CountryLong || '-'
+Uptime.value = vpn_setting.Uptime || '-'
+Speed.value = vpn_setting.Speed || '-'
+TotalTraffic.value = vpn_setting.TotalTraffic || '-'
+Score.value = vpn_setting.Score || '-'
+AutoReconnect.checked = vpn_setting.AutoReconnect || false
+AutoUpdate.checked = vpn_setting.AutoUpdate || false
+Permutation.checked = vpn_setting.Permutation || false
+StartHidden.checked = vpn_setting.StartHidden || false
+PositionNotify.value = vpn_setting.PositionNotify || 'BR'
+
+ipcRenderer.on('SETTING_GET', (e, data) => {
+    ipcRenderer.send('SETTING_DATA', getSetting())
+})
+</script>
+</body>
+</html>

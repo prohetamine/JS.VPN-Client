@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+<body>
+<div class='body'>
+    <div class='message-box'>
+        <div class='message'>
+            <div class='text'>Загрузка ...</div>
+            <div class='other'>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const Text = document.getElementsByClassName('text')[0]
+    , Other = document.getElementsByClassName('other')[0]
+    , Body = document.getElementsByClassName('body')[0] 
+    , { ipcRenderer, remote } = require('electron')
+
+const win = remote.getCurrentWindow()
+
+const padding = 13
+
+setInterval(() => {
+
+    const static_notify = JSON.parse(localStorage.vpn_setting || "{}").PositionNotify || 'BR'
+
+    const quickLaunch_Width = (window.screen.width - window.screen.availWidth),
+        quickLaunch_Height = (window.screen.height - window.screen.availHeight),
+        screen_Width = window.screen.width,
+        screen_Height = window.screen.height,
+        notify_Width = 200,
+        notify_Heigth = 175
+    
+    if (static_notify == 'BR') {
+        win.setPosition(
+            (screen_Width - quickLaunch_Width) - (notify_Width + padding), (screen_Height - quickLaunch_Height) - (notify_Heigth + padding)
+        )
+        Body.style.alignItems = 'flex-end'
+        Body.style.justifyContent = 'flex-end'
+    }
+
+    if (static_notify == 'TR') {
+        win.setPosition((screen_Width - quickLaunch_Width) - (notify_Width + padding), quickLaunch_Height + padding)
+        Body.style.alignItems = 'flex-end'
+        Body.style.justifyContent = 'flex-start'
+    }
+
+    if (static_notify == 'TL') {
+        win.setPosition(quickLaunch_Width + padding, quickLaunch_Height + padding)
+        Body.style.alignItems = 'flex-start'
+        Body.style.justifyContent = 'flex-start'
+    }
+    
+    if (static_notify == 'BL') {
+        win.setPosition(quickLaunch_Width + padding, window.screen.availHeight - 188)
+        Body.style.alignItems = 'flex-start'
+        Body.style.justifyContent = 'flex-end'
+    }
+
+}, 100)
+
+ipcRenderer.on('ALERT', (e, data) => {
+    Text.innerHTML = data
+    Other.innerHTML = ''
+})
+
+ipcRenderer.on('CONFIRM', (e, data) => {
+    const {
+        message, button
+    } = JSON.parse(data)
+
+    Text.innerHTML = message
+    Other.innerHTML = ''
+
+    button.forEach(elem => {
+        const btn = document.createElement('div')
+        btn.className = 'btn'
+        btn.innerHTML = elem.title
+        btn.onclick = e => {
+            ipcRenderer.send('CONFIRM_CALLBACK', elem.return)
+            e.stopPropagation()
+        }
+        Other.appendChild(btn)
+    })
+})
+
+document.body.addEventListener('click', () => {
+    ipcRenderer.send('ALERT_HIDE')
+})
+</script>
+</body>
+</html>
